@@ -14,6 +14,9 @@
     },
   };
   const COLORS = ['#ffcf3f', '#3fe0b5', '#ff8fab', '#8ecbff', '#c7a5ff', '#ffa94d', '#a3e635', '#f472b6', '#5eead4', '#fde68a'];
+  const WEB_URL = 'https://wolverr.github.io/trova-impostore/';
+  // Dentro l'app Android la pagina gira da un indirizzo interno: i link d'invito puntano al sito.
+  const IN_APP = typeof window.AndroidApp !== 'undefined';
   const CAT_BY_ID = Object.fromEntries(CATEGORIES.map((c) => [c.id, c]));
 
   const $app = document.getElementById('app');
@@ -72,7 +75,7 @@
     for (let i = 0; i < 4; i++) c += CODE_CHARS[Math.floor(Math.random() * CODE_CHARS.length)];
     return c;
   }
-  const joinLink = (code) => location.origin + location.pathname + '?r=' + code;
+  const joinLink = (code) => (IN_APP || !location.protocol.startsWith('http') ? WEB_URL : location.origin + location.pathname) + '?r=' + code;
 
   // ---------- HOST ----------
   function hostCreate(name, saved) {
@@ -652,7 +655,9 @@
         break;
       case 'share': {
         const url = joinLink(view.code);
-        if (navigator.share) navigator.share({ title: "Trova l'Impostore", text: 'Entra nella stanza ' + view.code, url }).catch(() => {});
+        const text = "Giochiamo a Trova l'Impostore! Stanza " + view.code + ' → ' + url;
+        if (IN_APP) window.AndroidApp.share(text);
+        else if (navigator.share) navigator.share({ title: "Trova l'Impostore", text: 'Entra nella stanza ' + view.code, url }).catch(() => {});
         else if (navigator.clipboard) navigator.clipboard.writeText(url).then(() => toast('Link copiato'), () => toast(url));
         else toast(url);
         break;
@@ -693,7 +698,7 @@
   }
 
   // ---------- avvio ----------
-  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  if ('serviceWorker' in navigator && location.protocol.startsWith('http') && !IN_APP) {
     navigator.serviceWorker.register('sw.js').catch(() => {});
   }
   if (typeof Peer === 'undefined') {

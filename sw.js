@@ -1,7 +1,7 @@
 // Rete prima, cache come riserva: gli aggiornamenti arrivano subito
 // e l'app si apre anche con connessione ballerina.
-const CACHE = 'impostore-v1';
-const SHELL = ['./', 'index.html', 'style.css', 'app.js', 'game.js', 'words.js', 'manifest.json', 'icon-192.png'];
+const CACHE = 'impostore-v2';
+const SHELL = ['./', 'index.html', 'style.css', 'app.js', 'game.js', 'words.js', 'manifest.json', 'icon-192.png', 'vendor/peerjs.min.js', 'vendor/qrcode.min.js'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
