@@ -1,0 +1,17 @@
+{
+  "name": "Trova l'Impostore",
+  "short_name": "Impostore",
+  "description": "Il gioco dell'impostore, ognuno col suo telefono.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#14112b",
+  "theme_color": "#14112b",
+  "lang": "it",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
